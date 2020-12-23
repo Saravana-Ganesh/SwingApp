@@ -50,7 +50,7 @@ class FirstGUI extends JFrame implements ActionListener{
 		jInternalFrame1.add(alot);
 		jInternalFrame1.add(remove);
 		add(jInternalFrame1);		
-		this.multipleFrames();
+		//this.multipleFrames();
 		add(desk);
 		jInternalFrame1.setLayout(new FlowLayout());
 		jInternalFrame1.setVisible(true);
@@ -65,9 +65,9 @@ class FirstGUI extends JFrame implements ActionListener{
 		 * The 4 above statements are common for every code
 		 */				
 	}
-	public void multipleFrames() {
-		/*frame = new JFrame("Multiple Frames");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);*/
+	/*public void multipleFrames() {
+		frame = new JFrame("Multiple Frames");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		desk = new JDesktopPane();
 		frame1 = new JInternalFrame("Frame1");
 		frame1.setBounds(20, 200, 150, 100);
@@ -89,7 +89,7 @@ class FirstGUI extends JFrame implements ActionListener{
 		desk.add(frame3);
 		desk.add(frame4);
 		desk.add(frame5); 
-	}
+	}*/
 	public void actionPerformed(ActionEvent e) {
 		if(e.getActionCommand().equalsIgnoreCase("alot")) {
 			map.put((String)positions.getSelectedItem(),nameTextField.getText()+"-"+vechicleTextField.getText());
