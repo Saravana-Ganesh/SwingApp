@@ -40,7 +40,7 @@ class FirstGUI extends JFrame implements ActionListener{
 		//Creating label objects...
 		nameLabel = new JLabel("Customer Name");
 		vehicleNumberLabel = new JLabel("Vehicle Number");
-		String s1[] = { "P1", "P2", "P3", "P4", "P5","P6" };  
+		String s1[] = { "P1", "P2", "P3", "P4", "P5"};  
 		positions = new JComboBox<String>(s1); 	    
 		//Creating button objects...
 		alot = new JButton("Alot");
