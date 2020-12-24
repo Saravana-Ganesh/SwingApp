@@ -1,8 +1,10 @@
 package com.parkingslot;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -27,6 +29,8 @@ class FirstGUI extends JFrame implements ActionListener{
 	HashMap<String,String> map = new HashMap<String,String>();
 	JDesktopPane desk;
 	JInternalFrame frame1, frame2, frame3, frame4,frame5;
+	JInternalFrame[] jInternalFrame;
+	JLabel[] names = new JLabel[5],vechicles;
 	FirstGUI(){
 		// create a internal frame 
 		JInternalFrame  jInternalFrame1 = new JInternalFrame("Add Vechicle Details");
@@ -50,52 +54,79 @@ class FirstGUI extends JFrame implements ActionListener{
 		jInternalFrame1.add(alot);
 		jInternalFrame1.add(remove);
 		add(jInternalFrame1);		
-		//this.multipleFrames();
-		add(desk);
+		multipleFrames();
+		deskFunctions();
+		setMapDefaultValues();
 		jInternalFrame1.setLayout(new FlowLayout());
 		jInternalFrame1.setVisible(true);
 		alot.addActionListener(this);
 		remove.addActionListener(this);
 		//Common Statements for frame...
-		setLayout(new FlowLayout());
+		this.setLayout(new FlowLayout());
 		this.setVisible(true);
 		this.setSize(1000,600);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		/*
 		 * The 4 above statements are common for every code
 		 */				
 	}
-	/*public void multipleFrames() {
-		frame = new JFrame("Multiple Frames");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		desk = new JDesktopPane();
-		frame1 = new JInternalFrame("Frame1");
-		frame1.setBounds(20, 200, 150, 100);
-		frame1.setVisible(true);
-		frame2 = new JInternalFrame("Frame2");
-		frame2.setBounds(200, 200, 150, 100);
-		frame2.setVisible(true);
-		frame3 = new JInternalFrame("Frame3");
-		frame3.setBounds(400, 200, 150, 100);
-		frame3.setVisible(true);
-		frame4 = new JInternalFrame("Frame4");
-		frame4.setBounds(600, 200, 150, 100);
-		frame4.setVisible(true);
-		frame5 = new JInternalFrame("Frame5");
-		frame5.setBounds(800, 200, 150, 100);
-		frame5.setVisible(true);
-		desk.add(frame1);
-		desk.add(frame2);
-		desk.add(frame3);
-		desk.add(frame4);
-		desk.add(frame5); 
-	}*/
-	public void actionPerformed(ActionEvent e) {
-		if(e.getActionCommand().equalsIgnoreCase("alot")) {
-			map.put((String)positions.getSelectedItem(),nameTextField.getText()+"-"+vechicleTextField.getText());
-		}else if(e.getActionCommand().equalsIgnoreCase("remove")) {
-			map.remove(positions.getSelectedItem());
+	public void setMapDefaultValues() {
+		for(int i=0;i<5;i++) {
+			String key = "P"+(i+1);
+			map.put(key,"-1");
 		}
+	}
+	public void multipleFrames() {		
+		jInternalFrame = new JInternalFrame[5];
+		for(int i=0;i<jInternalFrame.length;i++) {
+			String frameName = "P"+(i+1);
+			jInternalFrame[i] = new JInternalFrame(frameName);
+			//jInternalFrame[i].add(new JLabel("Name"));
+			//jInternalFrame[i].setBounds(0, 200, 150, 100);
+			jInternalFrame[i].setPreferredSize(new Dimension(180,80));
+			jInternalFrame[i].setVisible(true);
+			names[i] = new JLabel();
+		}		
+	}
+	public void deskFunctions() {
+		desk = new JDesktopPane();
+		for(JInternalFrame jInternalFrame1:jInternalFrame) {
+			desk.add(jInternalFrame1);
+		}
+		desk.setLayout(new FlowLayout());		
+		add(desk);
+		
+	}
+	public void actionPerformed(ActionEvent e){
+		if(e.getActionCommand().equalsIgnoreCase("alot")) {
+			if(map.get((String)positions.getSelectedItem()).equals("-1")) {
+				map.put((String)positions.getSelectedItem(),nameTextField.getText()+"-"+vechicleTextField.getText());
+				alotParking();
+			}
+		}else if(e.getActionCommand().equalsIgnoreCase("remove")) {
+			map.put((String)positions.getSelectedItem(),"-1");
+			alotParking();
+		}		
 		System.out.println(map);
+	}
+	public void alotParking() {
+		int i=0;
+		for (Map.Entry<String,String> entry : map.entrySet()) {
+			String str = entry.getValue();
+			if(!str.equals("-1")) {
+				for(int j=0;j<str.length();j++) {					
+					if(str.charAt(j)=='-') {								
+						names[i].setText(str.substring(0,j)+"-"+str.substring(j+1));
+					}
+				}
+			}else {
+				names[i].setText("");
+			}
+			jInternalFrame[i].getContentPane().add(names[i]);
+			jInternalFrame[i].setLayout(new FlowLayout());
+			jInternalFrame[i].setVisible(true);
+			i++;
+		}
+		deskFunctions();
 	}
 }
